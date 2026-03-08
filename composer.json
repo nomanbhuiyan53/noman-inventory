@@ -1,0 +1,67 @@
+{
+    "name": "noman/noman-inventory",
+    "description": "A production-grade, universal inventory management package for Laravel. Supports multi-tenant, multi-warehouse, batches, serials, expiry, FEFO/FIFO, valuation, reservations, stock counts, and full audit trails.",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "inventory",
+        "stock",
+        "warehouse",
+        "batch",
+        "serial",
+        "ledger",
+        "valuation",
+        "management",
+        "multi-tenant"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Noman",
+            "email": "noman@example.com",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^12.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Noman\\Inventory\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Noman\\Inventory\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Noman\\Inventory\\Infrastructure\\Providers\\NomanInventoryServiceProvider"
+            ],
+            "aliases": {
+                "NomanInventory": "Noman\\Inventory\\Support\\Facades\\NomanInventoryFacade"
+            }
+        }
+    },
+    "scripts": {
+        "test": "pest"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
