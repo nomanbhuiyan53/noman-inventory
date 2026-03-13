@@ -42,8 +42,8 @@ return new class extends Migration
                 ->cascadeOnDelete();
         });
 
-        Schema::table($tableName, function (Blueprint $table) use ($tableName) {
-            $table->foreign('parent_id')
+        Schema::table($tableName, function (Blueprint $blueprint) use ($tableName) {
+            $blueprint->foreign('parent_id')
                 ->references('id')
                 ->on($tableName)
                 ->nullOnDelete();

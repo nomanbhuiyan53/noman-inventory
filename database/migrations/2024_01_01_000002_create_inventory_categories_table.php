@@ -31,8 +31,8 @@ return new class extends Migration
         });
 
         // Add self-referencing FK separately (table must exist first)
-        Schema::table($table, function (Blueprint $table) use ($table) {
-            $table->foreign('parent_id')
+        Schema::table($table, function (Blueprint $blueprint) {
+            $blueprint->foreign('parent_id')
                 ->references('id')
                 ->on(config('inventory.tables.categories', 'inventory_categories'))
                 ->nullOnDelete();
