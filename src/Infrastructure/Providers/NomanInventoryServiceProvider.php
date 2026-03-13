@@ -90,6 +90,16 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
     }
 
     /**
+     * Override to prevent Spatie from loading routes (which uses a wrong path when
+     * the package is in vendor/ without routes/). We load routes ourselves in
+     * packageBooted() only when the files exist.
+     */
+    protected function bootPackageRoutes(): static
+    {
+        return $this;
+    }
+
+    /**
      * Register package bindings.
      * All bindings are soft (bindIf) so host apps can override them.
      */

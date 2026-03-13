@@ -49,6 +49,32 @@ composer require nomandev/noman-inventory
 
 The package auto-discovers via Laravel's package discovery mechanism.
 
+### Installing from a local path (development)
+
+If you develop the package locally (e.g. in a monorepo) and get a `Failed to open stream` error for `routes/api.php`, use a path repository so your app uses the local package:
+
+1. In your **Laravel app** `composer.json`, add:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../inventoryPackage/packages/noman-inventory"
+        }
+    ]
+}
+```
+
+Adjust the `url` path if your layout differs (e.g. `../../inventoryPackage/packages/noman-inventory`).
+
+2. Remove the old package and reinstall:
+
+```bash
+rm -rf vendor/nomandev/noman-inventory
+composer update nomandev/noman-inventory
+```
+
 ---
 
 ## Publishing Config & Migrations
