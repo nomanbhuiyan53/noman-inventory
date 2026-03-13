@@ -456,6 +456,33 @@ php artisan vendor:publish --tag="noman-inventory-views"
 
 Then edit the published Blade files in `resources/views/vendor/noman-inventory/`.
 
+### Views not updating after `composer update`?
+
+If you pushed changes to the package and ran `composer update` in your app but the UI still shows the old design, try this:
+
+1. **Clear Laravel caches** (the app may be serving cached compiled views):
+   ```bash
+   php artisan view:clear
+   php artisan cache:clear
+   ```
+
+2. **Published views override the package.** If you (or someone) ran `vendor:publish --tag=noman-inventory-views`, the app uses **copies** in `resources/views/vendor/noman-inventory/`. Those copies are **not** updated by `composer update`. To get the new package views again either:
+   - Remove the published views so the app falls back to the package:
+     ```bash
+     # In your application root
+     rm -rf resources/views/vendor/noman-inventory
+     ```
+   - Or re-publish and overwrite (this replaces your local customisations):
+     ```bash
+     php artisan vendor:publish --tag="noman-inventory-views" --force
+     ```
+
+3. **Ensure Composer is pulling the new version.** In the **package** repo, bump the version in `composer.json` (e.g. `"version": "1.0.6"`), commit and push. In the **application** that uses the package, run:
+   ```bash
+   composer update nomandev/noman-inventory
+   ```
+   If you use a branch or `dev` stability, ensure the app’s `composer.json` allows that version.
+
 ---
 
 ## Changelog
