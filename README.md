@@ -2,7 +2,7 @@
 
 **Package:** [`nomandev/noman-inventory`](https://packagist.org/packages/nomandev/noman-inventory) · **Namespace:** `Noman\Inventory`
 
-A **production-grade, universal inventory management package** for Laravel 12.
+A **production-grade, universal inventory management package** for Laravel 11 and 12.
 
 Built for multi-tenant, multi-warehouse environments across diverse business domains: cow farms, pharmaceutical distributors, pet shops, clinics, warehouses, general retail, and more.
 
@@ -36,7 +36,7 @@ Built for multi-tenant, multi-warehouse environments across diverse business dom
 ## Requirements
 
 - PHP **8.3+**
-- Laravel **12.x**
+- Laravel **11.x** or **12.x**
 - `spatie/laravel-package-tools` ^1.16
 
 ---
