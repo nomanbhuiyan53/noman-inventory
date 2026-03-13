@@ -72,7 +72,6 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
                 '2024_01_01_000026_create_inventory_tags_table',
                 '2024_01_01_000027_create_inventory_item_tag_maps_table',
             ])
-            ->hasRoutes(['api', 'web'])
             ->hasTranslations()
             ->hasViews();
     }
@@ -92,8 +91,29 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
+        $this->loadRoutesFromPackage();
         $this->registerEventListeners();
         $this->registerConsoleCommands();
+    }
+
+    /**
+     * Load API and web route files from the package routes/ directory.
+     * Only loads a file if it exists, so the app still boots when the package
+     * is installed without the routes directory (e.g. dist without routes).
+     */
+    private function loadRoutesFromPackage(): void
+    {
+        $basePath = dirname(__DIR__, 3) . '/routes';
+
+        $apiPath = $basePath . '/api.php';
+        if (is_file($apiPath)) {
+            $this->loadRoutesFrom($apiPath);
+        }
+
+        $webPath = $basePath . '/web.php';
+        if (is_file($webPath)) {
+            $this->loadRoutesFrom($webPath);
+        }
     }
 
     // -------------------------------------------------------------------------
