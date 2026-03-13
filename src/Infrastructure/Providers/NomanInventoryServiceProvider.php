@@ -80,13 +80,14 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * Package base directory is the package root (composer.json, routes/, config/),
-     * not the provider's directory. Required so Spatie loads config, migrations,
-     * and views from the correct path when the package is in vendor/.
+     * Spatie expects basePath to be package_root/src so that
+     * basePath("/../config/...") and basePath("/../database/migrations/...")
+     * resolve to package_root/config and package_root/database/migrations.
+     * (Provider is at src/Infrastructure/Providers/, so dirname 3 levels up = package root.)
      */
     protected function getPackageBaseDir(): string
     {
-        return dirname(__DIR__, 3);
+        return dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'src';
     }
 
     /**
@@ -122,12 +123,13 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
     /**
      * Load route files only if they exist, so the app boots even when the
      * installed package has no routes/ directory (e.g. some dist archives).
+     * Routes live at package root, not in src/.
      */
     private function loadRoutesFromPackage(): void
     {
-        $basePath = $this->getPackageBaseDir() . '/routes';
-        $apiPath  = $basePath . '/api.php';
-        $webPath  = $basePath . '/web.php';
+        $packageRoot = dirname(__DIR__, 3);
+        $apiPath     = $packageRoot . '/routes/api.php';
+        $webPath     = $packageRoot . '/routes/web.php';
         if (is_file($apiPath)) {
             $this->loadRoutesFrom($apiPath);
         }
