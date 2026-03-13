@@ -32,7 +32,7 @@ return new class extends Migration
                 ->on(config('inventory.tables.units', 'inventory_units'))
                 ->cascadeOnDelete();
 
-            $table->unique(['tenant_id', 'from_unit_id', 'to_unit_id']);
+            $table->unique(['tenant_id', 'from_unit_id', 'to_unit_id'], 'inv_unit_conv_tenant_from_to_uniq');
         });
     }
 
