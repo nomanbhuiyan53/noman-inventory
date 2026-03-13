@@ -1,5 +1,7 @@
 # noman-inventory
 
+**Package:** [`nomandev/noman-inventory`](https://packagist.org/packages/nomandev/noman-inventory) · **Namespace:** `Noman\Inventory`
+
 A **production-grade, universal inventory management package** for Laravel 12.
 
 Built for multi-tenant, multi-warehouse environments across diverse business domains: cow farms, pharmaceutical distributors, pet shops, clinics, warehouses, general retail, and more.
@@ -8,24 +10,26 @@ Built for multi-tenant, multi-warehouse environments across diverse business dom
 
 ## Features
 
-| Feature | Details |
-|---|---|
-| **Append-only ledger** | All stock changes recorded as immutable movement rows. Never destructive. |
-| **Documents** | GRNs, Delivery Orders, Transfer Orders, Adjustments, Stock Counts, Reversals |
-| **Batches / Lots** | Full batch tracking with expiry date and FEFO/FIFO allocation |
-| **Serial Numbers** | Unit-level serial tracking for equipment and high-value items |
-| **Valuation** | FIFO, Weighted Average, Standard Cost |
-| **Reservations** | Soft-lock stock before issue; automatic expiry; reference linking |
-| **Stock Counts** | Full count session workflow with variance calculation and auto-adjustment |
-| **Reversals** | Compensating entries; original documents never modified |
-| **Projections** | Denormalised balance + snapshot tables for fast reporting |
-| **Multi-warehouse** | Hierarchical: Warehouse → Zone → Aisle → Rack → Shelf → Bin |
-| **Multi-tenant** | Pluggable `TenantResolverContract`; no tenancy package hard-coded |
-| **Industry Profiles** | Standard Goods, Pharma, Livestock Supply, Serialised Equipment, Pet Food |
-| **Policy Engine** | Global → item-type → item level policy overrides |
-| **REST API** | Full CRUD + all stock operations + reports |
-| **Blade UI** | Optional web UI: dashboard, items, warehouses, stock ops, documents, reports |
-| **Events** | 12 domain events; listeners for balance projection |
+
+| Feature                | Details                                                                      |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| **Append-only ledger** | All stock changes recorded as immutable movement rows. Never destructive.    |
+| **Documents**          | GRNs, Delivery Orders, Transfer Orders, Adjustments, Stock Counts, Reversals |
+| **Batches / Lots**     | Full batch tracking with expiry date and FEFO/FIFO allocation                |
+| **Serial Numbers**     | Unit-level serial tracking for equipment and high-value items                |
+| **Valuation**          | FIFO, Weighted Average, Standard Cost                                        |
+| **Reservations**       | Soft-lock stock before issue; automatic expiry; reference linking            |
+| **Stock Counts**       | Full count session workflow with variance calculation and auto-adjustment    |
+| **Reversals**          | Compensating entries; original documents never modified                      |
+| **Projections**        | Denormalised balance + snapshot tables for fast reporting                    |
+| **Multi-warehouse**    | Hierarchical: Warehouse → Zone → Aisle → Rack → Shelf → Bin                  |
+| **Multi-tenant**       | Pluggable `TenantResolverContract`; no tenancy package hard-coded            |
+| **Industry Profiles**  | Standard Goods, Pharma, Livestock Supply, Serialised Equipment, Pet Food     |
+| **Policy Engine**      | Global → item-type → item level policy overrides                             |
+| **REST API**           | Full CRUD + all stock operations + reports                                   |
+| **Blade UI**           | Optional web UI: dashboard, items, warehouses, stock ops, documents, reports |
+| **Events**             | 12 domain events; listeners for balance projection                           |
+
 
 ---
 
@@ -40,7 +44,7 @@ Built for multi-tenant, multi-warehouse environments across diverse business dom
 ## Installation
 
 ```bash
-composer require noman/noman-inventory
+composer require nomandev/noman-inventory
 ```
 
 The package auto-discovers via Laravel's package discovery mechanism.
@@ -280,13 +284,15 @@ INVENTORY_TENANT_MODE=column
 
 Assign a profile to item types or items to automatically apply the right policy defaults:
 
-| Profile | Batch | Expiry | Serial | Location | Allocation |
-|---|---|---|---|---|---|
-| `standard_goods` | ❌ | ❌ | ❌ | ❌ | FIFO |
-| `pharma_goods` | ✅ | ✅ | ❌ | ✅ | FEFO |
-| `livestock_supply` | ✅ | ✅ | ❌ | ❌ | FEFO |
-| `serialized_equipment` | ❌ | ❌ | ✅ | ✅ | Manual |
-| `perishable_pet_food` | ✅ | ✅ | ❌ | ❌ | FEFO |
+
+| Profile                | Batch | Expiry | Serial | Location | Allocation |
+| ---------------------- | ----- | ------ | ------ | -------- | ---------- |
+| `standard_goods`       | ❌     | ❌      | ❌      | ❌        | FIFO       |
+| `pharma_goods`         | ✅     | ✅      | ❌      | ✅        | FEFO       |
+| `livestock_supply`     | ✅     | ✅      | ❌      | ❌        | FEFO       |
+| `serialized_equipment` | ❌     | ❌      | ✅      | ✅        | Manual     |
+| `perishable_pet_food`  | ✅     | ✅      | ❌      | ❌        | FEFO       |
+
 
 ---
 
@@ -344,33 +350,35 @@ Or use the `inventory_custom_fields` + `inventory_custom_field_values` tables fo
 
 All endpoints are prefixed with `/inventory` (configurable via `route_prefix`).
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/inventory/items` | List items |
-| POST | `/inventory/items` | Create item |
-| GET | `/inventory/items/{id}` | Get item |
-| PUT | `/inventory/items/{id}` | Update item |
-| DELETE | `/inventory/items/{id}` | Delete item |
-| POST | `/inventory/stock/receive` | Receive stock |
-| POST | `/inventory/stock/issue` | Issue stock |
-| POST | `/inventory/stock/transfer` | Transfer stock |
-| POST | `/inventory/stock/adjust` | Adjust stock |
-| POST | `/inventory/stock/reserve` | Reserve stock |
-| DELETE | `/inventory/stock/reserve/{id}` | Release reservation |
-| GET | `/inventory/documents` | List documents |
-| GET | `/inventory/documents/{id}` | Get document |
-| POST | `/inventory/documents/{id}/post` | Post document |
-| POST | `/inventory/documents/{id}/reverse` | Reverse document |
-| POST | `/inventory/stock-counts/start` | Start stock count |
-| POST | `/inventory/stock-counts/{id}/complete` | Complete count |
-| GET | `/inventory/reports/stock-on-hand` | Stock on hand report |
-| GET | `/inventory/reports/stock-by-location` | Stock by location |
-| GET | `/inventory/reports/stock-ledger` | Stock movement ledger |
-| GET | `/inventory/reports/stock-card` | Stock card (running balance) |
-| GET | `/inventory/reports/batch-expiry` | Batch expiry report |
-| GET | `/inventory/reports/inventory-aging` | Inventory aging |
-| GET | `/inventory/reports/valuation-summary` | Valuation summary |
-| GET | `/inventory/reports/reservations` | Reservation status |
+
+| Method | Endpoint                                | Description                  |
+| ------ | --------------------------------------- | ---------------------------- |
+| GET    | `/inventory/items`                      | List items                   |
+| POST   | `/inventory/items`                      | Create item                  |
+| GET    | `/inventory/items/{id}`                 | Get item                     |
+| PUT    | `/inventory/items/{id}`                 | Update item                  |
+| DELETE | `/inventory/items/{id}`                 | Delete item                  |
+| POST   | `/inventory/stock/receive`              | Receive stock                |
+| POST   | `/inventory/stock/issue`                | Issue stock                  |
+| POST   | `/inventory/stock/transfer`             | Transfer stock               |
+| POST   | `/inventory/stock/adjust`               | Adjust stock                 |
+| POST   | `/inventory/stock/reserve`              | Reserve stock                |
+| DELETE | `/inventory/stock/reserve/{id}`         | Release reservation          |
+| GET    | `/inventory/documents`                  | List documents               |
+| GET    | `/inventory/documents/{id}`             | Get document                 |
+| POST   | `/inventory/documents/{id}/post`        | Post document                |
+| POST   | `/inventory/documents/{id}/reverse`     | Reverse document             |
+| POST   | `/inventory/stock-counts/start`         | Start stock count            |
+| POST   | `/inventory/stock-counts/{id}/complete` | Complete count               |
+| GET    | `/inventory/reports/stock-on-hand`      | Stock on hand report         |
+| GET    | `/inventory/reports/stock-by-location`  | Stock by location            |
+| GET    | `/inventory/reports/stock-ledger`       | Stock movement ledger        |
+| GET    | `/inventory/reports/stock-card`         | Stock card (running balance) |
+| GET    | `/inventory/reports/batch-expiry`       | Batch expiry report          |
+| GET    | `/inventory/reports/inventory-aging`    | Inventory aging              |
+| GET    | `/inventory/reports/valuation-summary`  | Valuation summary            |
+| GET    | `/inventory/reports/reservations`       | Reservation status           |
+
 
 ---
 
@@ -378,18 +386,20 @@ All endpoints are prefixed with `/inventory` (configurable via `route_prefix`).
 
 The package includes an optional Blade-based web UI, using the same prefix as the API (default `/inventory`). Enable or disable it via `config('inventory.routes_enabled')`; middleware is set with `config('inventory.web_middleware', ['web'])`.
 
-| URL | Description |
-|---|---|
-| `GET /inventory` | Dashboard |
-| `GET /inventory/items` | List items (create, edit, show, delete) |
-| `GET /inventory/warehouses` | List warehouses (create, edit, show, delete) |
-| `GET /inventory/stock/receive` | Receive stock form |
-| `GET /inventory/stock/issue` | Issue stock form |
-| `GET /inventory/stock/transfer` | Transfer stock form |
-| `GET /inventory/stock/adjust` | Adjust stock form |
-| `GET /inventory/documents` | Stock documents list and detail |
-| `GET /inventory/stock-counts` | Stock count sessions; start new count |
-| `GET /inventory/reports` | Reports index (stock on hand, by location, ledger, batch expiry, reservations) |
+
+| URL                             | Description                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| `GET /inventory`                | Dashboard                                                                      |
+| `GET /inventory/items`          | List items (create, edit, show, delete)                                        |
+| `GET /inventory/warehouses`     | List warehouses (create, edit, show, delete)                                   |
+| `GET /inventory/stock/receive`  | Receive stock form                                                             |
+| `GET /inventory/stock/issue`    | Issue stock form                                                               |
+| `GET /inventory/stock/transfer` | Transfer stock form                                                            |
+| `GET /inventory/stock/adjust`   | Adjust stock form                                                              |
+| `GET /inventory/documents`      | Stock documents list and detail                                                |
+| `GET /inventory/stock-counts`   | Stock count sessions; start new count                                          |
+| `GET /inventory/reports`        | Reports index (stock on hand, by location, ledger, batch expiry, reservations) |
+
 
 Views live in the package under `resources/views` and are registered with the `noman-inventory` view namespace. To customise the UI, publish the views:
 
