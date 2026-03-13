@@ -24,6 +24,9 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 /**
  * Main service provider for the noman-inventory package.
  *
+ * Overrides getPackageBaseDir() so the package root (where composer.json and
+ * routes/ live) is used, not the provider's directory (src/Infrastructure/Providers).
+ *
  * Bootstrapped via Spatie's PackageServiceProvider which handles:
  *  - Config file publishing (inventory.php)
  *  - Migration loading / publishing
@@ -77,6 +80,16 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
     }
 
     /**
+     * Package base directory is the package root (composer.json, routes/, config/),
+     * not the provider's directory. Required so Spatie loads config, migrations,
+     * and views from the correct path when the package is in vendor/.
+     */
+    protected function getPackageBaseDir(): string
+    {
+        return dirname(__DIR__, 3);
+    }
+
+    /**
      * Register package bindings.
      * All bindings are soft (bindIf) so host apps can override them.
      */
@@ -97,20 +110,17 @@ class NomanInventoryServiceProvider extends PackageServiceProvider
     }
 
     /**
-     * Load API and web route files from the package routes/ directory.
-     * Only loads a file if it exists, so the app still boots when the package
-     * is installed without the routes directory (e.g. dist without routes).
+     * Load route files only if they exist, so the app boots even when the
+     * installed package has no routes/ directory (e.g. some dist archives).
      */
     private function loadRoutesFromPackage(): void
     {
-        $basePath = dirname(__DIR__, 3) . '/routes';
-
-        $apiPath = $basePath . '/api.php';
+        $basePath = $this->getPackageBaseDir() . '/routes';
+        $apiPath  = $basePath . '/api.php';
+        $webPath  = $basePath . '/web.php';
         if (is_file($apiPath)) {
             $this->loadRoutesFrom($apiPath);
         }
-
-        $webPath = $basePath . '/web.php';
         if (is_file($webPath)) {
             $this->loadRoutesFrom($webPath);
         }
