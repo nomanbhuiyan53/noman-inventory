@@ -35,7 +35,7 @@ Built for multi-tenant, multi-warehouse environments across diverse business dom
 
 ## Requirements
 
-- PHP **8.3+**
+- PHP **8.2+**
 - Laravel **11.x** or **12.x**
 - `spatie/laravel-package-tools` ^1.16
 
@@ -455,6 +455,21 @@ php artisan vendor:publish --tag="noman-inventory-views"
 ```
 
 Then edit the published Blade files in `resources/views/vendor/noman-inventory/`.
+
+---
+
+## Changelog
+
+### v1.0.5 (2025-03-08)
+
+- **MySQL compatibility:** Added short explicit names for all compound indexes and unique constraints to avoid MySQL's 64-character identifier limit.
+- **Migration fixes:** Fixed variable shadowing in categories and locations migrations; corrected migration order (units/unit_conversions before items) to satisfy foreign key dependencies.
+- **Service provider:** Fixed `getPackageBaseDir()` so config and migrations publish from the correct path; added `bootPackageRoutes()` override for reliable route loading.
+- **Laravel 11 support:** Package now supports both Laravel 11 and 12.
+
+### v1.0.x (earlier)
+
+- Initial release with append-only ledger, documents, batches, serials, expiry, FEFO/FIFO, valuation, reservations, stock counts, Blade UI, and REST API.
 
 ---
 
