@@ -2,42 +2,52 @@
 
 @section('title', 'Adjust Stock')
 
+@section('breadcrumbs')
+    <span class="text-slate-400">/</span>
+    <span class="text-slate-900">Adjust Stock</span>
+@stop
+
 @section('content')
-<div class="inventory-card">
-    <h1>Adjust Stock</h1>
-    <p class="text-sm">Use positive quantity to add stock (e.g. found), negative to reduce (e.g. damage, loss).</p>
-    <form action="{{ route('inventory.stock.adjust.submit') }}" method="post">
-        @csrf
-        <div class="form-group">
-            <label for="item_id">Item *</label>
-            <select name="item_id" id="item_id" required>
-                <option value="">— Select item —</option>
-                @foreach($items as $i)
-                    <option value="{{ $i->id }}" {{ old('item_id') == $i->id ? 'selected' : '' }}>{{ $i->code }} — {{ $i->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="warehouse_id">Warehouse *</label>
-            <select name="warehouse_id" id="warehouse_id" required>
-                <option value="">— Select warehouse —</option>
-                @foreach($warehouses as $w)
-                    <option value="{{ $w->id }}" {{ old('warehouse_id') == $w->id ? 'selected' : '' }}>{{ $w->code }} — {{ $w->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="quantity">Quantity * (positive = in, negative = out)</label>
-            <input type="number" name="quantity" id="quantity" value="{{ old('quantity') }}" step="any" required>
-        </div>
-        <div class="form-group">
-            <label for="reason">Reason</label>
-            <input type="text" name="reason" id="reason" value="{{ old('reason') }}" placeholder="e.g. Damage, count correction">
-        </div>
-        <div class="flex">
-            <button type="submit" class="btn btn-primary">Adjust Stock</button>
-            <a href="{{ route('inventory.dashboard') }}" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+<div class="space-y-6">
+    <header>
+        <h1 class="text-2xl font-semibold text-slate-900">Adjust Stock</h1>
+        <p class="mt-1 text-sm text-slate-600">Use positive quantity to add stock (e.g. found), negative to reduce (e.g. damage, loss).</p>
+    </header>
+
+    <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+        <form action="{{ route('inventory.stock.adjust.submit') }}" method="post" class="space-y-4">
+            @csrf
+            <div>
+                <label for="item_id" class="block text-sm font-medium text-slate-700 mb-1">Item *</label>
+                <select name="item_id" id="item_id" required class="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <option value="">— Select item —</option>
+                    @foreach($items as $i)
+                        <option value="{{ $i->id }}" {{ old('item_id') == $i->id ? 'selected' : '' }}>{{ $i->code }} — {{ $i->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="warehouse_id" class="block text-sm font-medium text-slate-700 mb-1">Warehouse *</label>
+                <select name="warehouse_id" id="warehouse_id" required class="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <option value="">— Select warehouse —</option>
+                    @foreach($warehouses as $w)
+                        <option value="{{ $w->id }}" {{ old('warehouse_id') == $w->id ? 'selected' : '' }}>{{ $w->code }} — {{ $w->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="quantity" class="block text-sm font-medium text-slate-700 mb-1">Quantity * (positive = in, negative = out)</label>
+                <input type="number" name="quantity" id="quantity" value="{{ old('quantity') }}" step="any" required class="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="reason" class="block text-sm font-medium text-slate-700 mb-1">Reason</label>
+                <input type="text" name="reason" id="reason" value="{{ old('reason') }}" placeholder="e.g. Damage, count correction" class="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+                <button type="submit" class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">Adjust Stock</button>
+                <a href="{{ route('inventory.dashboard') }}" class="inline-flex items-center px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
