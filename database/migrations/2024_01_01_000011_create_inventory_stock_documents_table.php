@@ -58,10 +58,10 @@ return new class extends Migration
             $table->timestamps();
 
             // Unique document number per tenant
-            $table->unique(['tenant_id', 'document_number']);
+            $table->unique(['tenant_id', 'document_number'], 'inv_doc_tenant_docnum_uniq');
 
             // Unique idempotency key per tenant
-            $table->unique(['tenant_id', 'idempotency_key']);
+            $table->unique(['tenant_id', 'idempotency_key'], 'inv_doc_tenant_idempotency_uniq');
 
             $table->foreign('reversal_of_id')
                 ->references('id')
@@ -79,8 +79,8 @@ return new class extends Migration
                 ->nullOnDelete();
 
             // Composite indexes for common queries
-            $table->index(['tenant_id', 'document_type', 'status']);
-            $table->index(['tenant_id', 'posted_at']);
+            $table->index(['tenant_id', 'document_type', 'status'], 'inv_doc_tenant_type_status');
+            $table->index(['tenant_id', 'posted_at'], 'inv_doc_tenant_posted');
         });
     }
 

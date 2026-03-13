@@ -41,11 +41,11 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             // A batch code must be unique per item per tenant
-            $table->unique(['tenant_id', 'item_id', 'batch_code']);
+            $table->unique(['tenant_id', 'item_id', 'batch_code'], 'inv_batch_tenant_item_code_uniq');
 
             // Composite index for FEFO queries (expiry_date ASC, item_id)
-            $table->index(['item_id', 'expiry_date']);
-            $table->index(['tenant_id', 'item_id', 'expiry_date']);
+            $table->index(['item_id', 'expiry_date'], 'inv_batch_item_expiry');
+            $table->index(['tenant_id', 'item_id', 'expiry_date'], 'inv_batch_tenant_item_expiry');
         });
     }
 

@@ -45,7 +45,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             // Serial must be globally unique per item per tenant
-            $table->unique(['tenant_id', 'item_id', 'serial_code']);
+            $table->unique(['tenant_id', 'item_id', 'serial_code'], 'inv_serial_tenant_item_code_uniq');
         });
     }
 

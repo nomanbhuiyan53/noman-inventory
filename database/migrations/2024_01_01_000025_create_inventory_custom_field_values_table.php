@@ -30,7 +30,7 @@ return new class extends Migration
 
             // Each entity can only have one value per custom field
             $table->unique(['custom_field_id', 'entity_type', 'entity_id'], 'unique_field_value');
-            $table->index(['entity_type', 'entity_id']);
+            $table->index(['entity_type', 'entity_id'], 'inv_cfval_entity');
         });
     }
 

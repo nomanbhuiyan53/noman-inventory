@@ -49,8 +49,8 @@ return new class extends Migration
                 ->on(config('inventory.tables.items', 'inventory_items'))
                 ->restrictOnDelete();
 
-            $table->index(['tenant_id', 'item_id', 'created_at']);
-            $table->index(['tenant_id', 'item_id', 'batch_id']);
+            $table->index(['tenant_id', 'item_id', 'created_at'], 'inv_val_tenant_item_created');
+            $table->index(['tenant_id', 'item_id', 'batch_id'], 'inv_val_tenant_item_batch');
         });
     }
 

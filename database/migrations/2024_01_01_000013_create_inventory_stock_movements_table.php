@@ -68,10 +68,10 @@ return new class extends Migration
                 ->nullOnDelete();
 
             // High-frequency index for balance computation and stock card queries
-            $table->index(['tenant_id', 'item_id', 'posted_at']);
-            $table->index(['tenant_id', 'item_id', 'warehouse_id', 'posted_at']);
-            $table->index(['tenant_id', 'item_id', 'warehouse_id', 'location_id', 'posted_at']);
-            $table->index(['tenant_id', 'item_id', 'batch_id', 'posted_at']);
+            $table->index(['tenant_id', 'item_id', 'posted_at'], 'inv_mov_tenant_item_posted');
+            $table->index(['tenant_id', 'item_id', 'warehouse_id', 'posted_at'], 'inv_mov_tenant_item_wh_posted');
+            $table->index(['tenant_id', 'item_id', 'warehouse_id', 'location_id', 'posted_at'], 'inv_mov_tenant_item_wh_loc_posted');
+            $table->index(['tenant_id', 'item_id', 'batch_id', 'posted_at'], 'inv_mov_tenant_item_batch_posted');
         });
     }
 

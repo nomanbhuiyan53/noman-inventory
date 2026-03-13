@@ -50,7 +50,7 @@ return new class extends Migration
                 ->on(config('inventory.tables.batches', 'inventory_batches'))
                 ->nullOnDelete();
 
-            $table->index(['tenant_id', 'item_id']);
+            $table->index(['tenant_id', 'item_id'], 'inv_docline_tenant_item');
         });
     }
 

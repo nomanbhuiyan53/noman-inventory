@@ -32,7 +32,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['tenant_id', 'entity_type', 'field_key']);
+            $table->unique(['tenant_id', 'entity_type', 'field_key'], 'inv_custom_tenant_entity_key_uniq');
         });
     }
 

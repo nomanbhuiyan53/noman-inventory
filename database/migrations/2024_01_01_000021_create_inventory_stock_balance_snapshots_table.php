@@ -31,7 +31,7 @@ return new class extends Migration
 
             $table->timestamp('created_at')->useCurrent();
 
-            $table->index(['tenant_id', 'item_id', 'snapshot_at']);
+            $table->index(['tenant_id', 'item_id', 'snapshot_at'], 'inv_snap_tenant_item_at');
         });
     }
 

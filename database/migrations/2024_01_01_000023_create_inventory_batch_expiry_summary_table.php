@@ -31,8 +31,8 @@ return new class extends Migration
                 ->on(config('inventory.tables.batches', 'inventory_batches'))
                 ->cascadeOnDelete();
 
-            $table->index(['tenant_id', 'is_expired', 'days_until_expiry']);
-            $table->index(['tenant_id', 'item_id', 'expiry_date']);
+            $table->index(['tenant_id', 'is_expired', 'days_until_expiry'], 'inv_expiry_tenant_exp_days');
+            $table->index(['tenant_id', 'item_id', 'expiry_date'], 'inv_expiry_tenant_item_date');
         });
     }
 

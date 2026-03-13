@@ -51,8 +51,8 @@ return new class extends Migration
             $table->unique(['tenant_id', 'item_id', 'warehouse_id', 'location_id', 'batch_id'], 'unique_balance');
 
             // Critical indexes for balance lookups (most queried table in the system)
-            $table->index(['tenant_id', 'item_id', 'quantity_available']);
-            $table->index(['tenant_id', 'warehouse_id', 'quantity_on_hand']);
+            $table->index(['tenant_id', 'item_id', 'quantity_available'], 'inv_bal_tenant_item_avail');
+            $table->index(['tenant_id', 'warehouse_id', 'quantity_on_hand'], 'inv_bal_tenant_wh_onhand');
         });
     }
 

@@ -41,7 +41,7 @@ return new class extends Migration
                 ->on(config('inventory.tables.reservations', 'inventory_reservations'))
                 ->nullOnDelete();
 
-            $table->index(['tenant_id', 'item_id', 'warehouse_id']);
+            $table->index(['tenant_id', 'item_id', 'warehouse_id'], 'inv_alloc_tenant_item_wh');
         });
     }
 

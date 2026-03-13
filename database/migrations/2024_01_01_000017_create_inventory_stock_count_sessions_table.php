@@ -36,7 +36,7 @@ return new class extends Migration
                 ->on(config('inventory.tables.warehouses', 'inventory_warehouses'))
                 ->restrictOnDelete();
 
-            $table->unique(['tenant_id', 'session_number']);
+            $table->unique(['tenant_id', 'session_number'], 'inv_count_tenant_session_uniq');
         });
     }
 

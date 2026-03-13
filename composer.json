@@ -1,5 +1,6 @@
 {
     "name": "nomandev/noman-inventory",
+    "version": "1.0.5",
     "description": "A production-grade, universal inventory management package for Laravel. Supports multi-tenant, multi-warehouse, batches, serials, expiry, FEFO/FIFO, valuation, reservations, stock counts, and full audit trails.",
     "type": "library",
     "keywords": [

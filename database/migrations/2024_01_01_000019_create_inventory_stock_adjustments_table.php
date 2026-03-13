@@ -48,7 +48,7 @@ return new class extends Migration
                 ->on(config('inventory.tables.warehouses', 'inventory_warehouses'))
                 ->restrictOnDelete();
 
-            $table->index(['tenant_id', 'status']);
+            $table->index(['tenant_id', 'status'], 'inv_adj_tenant_status');
         });
     }
 
